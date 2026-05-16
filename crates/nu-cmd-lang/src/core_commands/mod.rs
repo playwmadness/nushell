@@ -61,6 +61,8 @@ pub use hide::Hide;
 pub use hide_env::HideEnv;
 pub use if_::If;
 pub use ignore::Ignore;
+pub use ignore::IgnoreStderr;
+pub use ignore::IgnoreStdout;
 pub use let_::Let;
 pub use loop_::Loop;
 pub use match_::Match;

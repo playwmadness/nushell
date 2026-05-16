@@ -49,6 +49,8 @@ pub fn add_default_context(mut engine_state: EngineState) -> EngineState {
             HideEnv,
             If,
             Ignore,
+            IgnoreStderr,
+            IgnoreStdout,
             Overlay,
             OverlayUse,
             OverlayList,
