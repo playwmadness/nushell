@@ -40,7 +40,11 @@ impl Command for IgnoreStdout {
             #[cfg(feature = "os")]
             if let ByteStreamSource::Child(child) = stream.source_mut() {
                 child.ignore_error(true);
-                child.stdout.take();
+                // TODO: This causes SIGPIPE on the child process,
+                // but when unused causes the shell to block join child process
+                // on `e>|` and `o+e>|` pipes:
+                // child.stdout.take();
+                // NOTE: See NOTE in ignore_.rs
             }
         }
         input.drain()?;

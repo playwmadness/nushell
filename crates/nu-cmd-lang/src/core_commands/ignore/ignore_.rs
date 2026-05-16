@@ -40,7 +40,13 @@ impl Command for Ignore {
             #[cfg(feature = "os")]
             if let ByteStreamSource::Child(child) = stream.source_mut() {
                 child.ignore_error(true);
-                child.stdout.take();
+                // TODO: This causes SIGPIPE on the child process,
+                // but when unused causes the shell to block join child process
+                // on `e>|` and `o+e>|` pipes:
+                // child.stdout.take();
+                // NOTE: This is caused by `e>|` and `o+e>|` taking precedence over
+                // `Command::pipe_redirection` in some weird way like creating stdout Pipe
+                // when `command.pipe_redirection().0 == Some(OutDest::Null)`.
             }
         }
         input.drain()?;

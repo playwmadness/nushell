@@ -38,8 +38,11 @@ impl Command for IgnoreStderr {
     ) -> Result<PipelineData, ShellError> {
         if let PipelineData::ByteStream(stream, ..) = &mut input {
             #[cfg(feature = "os")]
-            if let ByteStreamSource::Child(child) = stream.source_mut() {
-                child.stderr.take();
+            if let ByteStreamSource::Child(_child) = stream.source_mut() {
+                // TODO: This might cause SIGPIPE on the child process,
+                // but when unused it fails a debug_assert "stderr should be None":
+                // child.stderr.take();
+                // NOTE: See NOTE in ignore_.rs
             }
         }
         Ok(input)
